@@ -1,0 +1,356 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
+####Reading a data from UCI Machine Learning Repository & use Pandas functions
+
+
+# In[ ]:
+
+
+## Census Income Dataset                                        #(CSV--comma seperated values file)
+
+
+# In[37]:
+
+
+import numpy as np
+
+
+# In[1]:
+
+
+import pandas as pd
+from numpy.random import randn
+
+
+# In[2]:
+
+
+census=pd.read_csv("C:\\Users\\sowmy\\Downloads\\adult.data")                                      ##read the data
+census
+
+
+# In[3]:
+
+
+census.info()                             #to get info of the data
+
+
+# In[4]:
+
+
+type(census)                              ##type of data
+
+
+# In[5]:
+
+
+census.shape                                         ##shape n size of data
+
+
+# In[6]:
+
+
+census.describe()                                                #description of data
+
+
+# In[7]:
+
+
+census
+
+
+# In[8]:
+
+
+census=pd.read_csv("C:\\Users\\sowmy\\Downloads\\adult.data",header=None)              ##removes header from data
+census
+
+
+# In[9]:
+
+
+census.columns
+
+
+# In[10]:
+
+
+col=[
+    'age',
+    'workclass',
+    'fnlwgt',
+    'education',
+    'education-num', 
+    'marital-status',
+    'occupation',
+    'relationship',
+    'race',
+    'sex',
+    'capital-gain',
+    'capital-loss',
+    'hours-per-week',
+    'native-country',
+     "above$50K"
+     ]
+
+
+# In[11]:
+
+
+census
+
+
+# In[12]:
+
+
+census.columns=col                           #adding heading names
+
+
+# In[13]:
+
+
+census
+
+
+# In[14]:
+
+
+census.head()                              #seeing tp 5 data
+
+
+# In[15]:
+
+
+census.head(10)                                                       ##seeing top 10 data
+
+
+# In[16]:
+
+
+census.tail()                                     #get details of bottm 5 rows
+
+
+# In[17]:
+
+
+census[['age','education']]                                #get details of specified columns
+
+
+# In[18]:
+
+
+census=census.rename(columns={'above$50K':'>50K'})                 ##renaming any coloumn
+census
+
+
+# In[19]:
+
+
+census.sort_values(by='age')              ##sorting data
+
+
+# In[20]:
+
+
+census.sort_values(by='age',ascending=False)                               ##arranging in descing order
+
+
+# In[21]:
+
+
+census['education-num']>7                               ##filtering by education greater than 7 in boolean
+
+
+# In[22]:
+
+
+census[census['education-num']>7 ]                                ##filtering to get data
+
+
+# In[23]:
+
+
+(census['age']>20)&(census['education-num']>6)                                     #filtering by 2 conditions
+
+
+# In[24]:
+
+
+census[(census['age']>20)&(census['education-num']>6)]    
+
+
+# In[25]:
+
+
+filtering=(census['age']>20)&(census['education-num']>6)
+census[filtering][['age','workclass']]                                              ##filtering for specified columns
+
+
+# In[26]:
+
+
+filtereddata=census[filtering][['age','workclass']]                                   ##saving to a new csv file
+
+
+# In[27]:
+
+
+filtereddata.to_csv("fiteredage")                               ##exporting data to new file
+
+
+# In[28]:
+
+
+census['age'].mean()                                  #applying mean function
+
+
+# In[29]:
+
+
+census.sample()                                           ##displays random data from datafile
+
+
+# In[30]:
+
+
+census.sample(6)
+
+
+# In[31]:
+
+
+census['sex'].unique()                                           ##get unique details of categories
+
+
+# In[32]:
+
+
+census['workclass'].unique() 
+
+
+# In[33]:
+
+
+census['workclass'].nunique()                                    ##gets number of distinct categories 
+
+
+# In[34]:
+
+
+census.sort_values(by=['age','education-num'],ascending=[False,True])  
+
+
+# In[ ]:
+
+
+#NAN--Not a Number --- We represent this for any missing value
+
+
+# In[35]:
+
+
+census.loc[census.workclass==' ?']              #Filter data whereveer it is '?'
+
+
+# In[39]:
+
+
+#Replace '?' with NAN
+census.loc[census.workclass==' ?',"workclass"]=np.nan
+census.info()
+
+
+# In[40]:
+
+
+census.loc[census.workclass.isna()]                          ##one more way to check if nan is present
+
+
+# In[ ]:
+
+
+census.dropna()                                               ##to delete nas---always avoid deleting
+
+
+# In[ ]:
+
+
+#bfill and ffill   --backward filling(down to up)  n forward filling(above to down)
+
+
+# In[41]:
+
+
+census_1=census.copy()                 #for making copy of a data
+census_2=census.copy() 
+
+
+# In[42]:
+
+
+census_1.workclass.ffill()
+
+
+# In[43]:
+
+
+census_2.workclass.bfill()
+
+
+# In[44]:
+
+
+census_1['workclass'].mode()
+
+
+# In[45]:
+
+
+census['workclass'].value_counts()
+
+
+# In[48]:
+
+
+census_1['workclass'].value_counts()
+
+
+# In[47]:
+
+
+census_1['workclass'].fillna(census_1['workclass'].mode()[0])
+
+
+# In[46]:
+
+
+census_1['workclass'].mode()[0]
+
+
+# In[49]:
+
+
+census_1['workclass'].fillna(census_1['workclass'].mode()[0], inplace=True)    #to update original datatframe
+
+
+# In[50]:
+
+
+census_1
+
+
+# In[51]:
+
+
+census_1['workclass'].value_counts()
+
+
+# In[ ]:
+
+
+
+
