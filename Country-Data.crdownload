@@ -1,0 +1,325 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
+###STATS HANDSON CLASS
+
+
+# In[1]:
+
+
+# importing necessary libraries
+import pandas as pd
+
+
+# In[3]:
+
+
+# import the dataset
+data=pd.read_csv('country_profile_variables.csv')
+
+
+# In[4]:
+
+
+data
+
+
+# In[5]:
+
+
+# first few records of the data
+data.head()
+
+
+# In[6]:
+
+
+# last few records of the data
+data.tail()
+
+
+# In[7]:
+
+
+# knowing the shape of the data
+data.shape
+
+
+# In[8]:
+
+
+# fetch the column names of the data
+data.columns
+
+
+# In[9]:
+
+
+# count of every record in individual column
+data.count()
+
+
+# In[10]:
+
+
+# dataset information(outline of the data)
+data.info()
+
+
+# In[11]:
+
+
+# checking null values
+data.isnull().sum()
+
+
+# In[12]:
+
+
+# checking the NaN values
+data.isna().sum()
+
+
+#  We have done our initial anaysis and found that the data doesnt have any null values, and the 50 columns are not all 
+#     numeric datatypes, some are of object type as well.
+
+# # We will begin our initial Descriptive Statistical Analysis
+# 
+# For our analysis, we will chosse a 'Population in thousands (2017)' column. We can perform the similar operationson other columns. We will get the measure of central tendency and measure of spread of the data.
+
+# In[13]:
+
+
+# mean- we will check the mean of 'Population in thousands (2017)'
+data['Population in thousands (2017)'].mean()
+
+
+# In[14]:
+
+
+# median- we will check the median of 'Population in thousands (2017)'
+data['Population in thousands (2017)'].median()
+
+
+# In[15]:
+
+
+# mode- we will check the mode of 'Population in thousands (2017)'
+data['Population in thousands (2017)'].mode()
+
+
+# In[ ]:
+
+
+#  the mode() in pandas return the set of values that appear most often and can return multiple values as well
+
+
+# In[16]:
+
+
+# min , max of 'Population in thousands (2017)'
+
+print('Minimum value of the column is:{}'.format(data['Population in thousands (2017)'].min()))
+print('Maximum value of the column is:{}'.format(data['Population in thousands (2017)'].max()))
+
+
+# In[22]:
+
+
+data['Population in thousands (2017)'].min()
+
+
+# In[23]:
+
+
+data['Population in thousands (2017)'].max()
+
+
+# In[24]:
+
+
+# range of 'Population in thousands (2017)'
+data['Population in thousands (2017)'].max()-data['Population in thousands (2017)'].min()
+
+
+# In[25]:
+
+
+# to get statistical overview
+data.describe()
+
+
+# In[26]:
+
+
+data.describe(include='all')
+
+
+# In[27]:
+
+
+# unique value count
+data['Population in thousands (2017)'].nunique()
+
+
+# In[28]:
+
+
+# count of individual category in the column
+data['Population in thousands (2017)'].value_counts()
+
+
+# In[29]:
+
+
+data['country'].value_counts()
+
+
+# In[30]:
+
+
+# Standard Deviation 
+data['Population in thousands (2017)'].std()
+
+
+# In[31]:
+
+
+# Variance
+data['Population in thousands (2017)'].var()
+
+
+# In[32]:
+
+
+# Calculating 25,50,75 percentiles
+import numpy as np
+twe=np.percentile(data['Population in thousands (2017)'],25)
+fif=np.percentile(data['Population in thousands (2017)'],50)
+sev=np.percentile(data['Population in thousands (2017)'],75)
+print(twe,fif,sev)
+
+
+# In[33]:
+
+
+# Quartiles
+Q1=data['Population in thousands (2017)'].quantile(0.25)
+Q2=data['Population in thousands (2017)'].quantile(0.50)
+Q3=data['Population in thousands (2017)'].quantile(0.75)
+print(Q1,Q2,Q3)
+
+
+# In[34]:
+
+
+# Interquartile Range
+IQR=Q3-Q1
+IQR
+
+
+# In[35]:
+
+
+# Frequency distribution of data
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.hist(data['Population in thousands (2017)'])
+
+
+# In[36]:
+
+
+# creating density plot from seaborn library
+sns.distplot(data['Population in thousands (2017)'])
+
+
+# In[37]:
+
+
+sns.distplot(data['Sex ratio (m per 100 f, 2017)'])
+
+
+# # Probability
+# 
+# What is the probability that the Population in thousands(2017) is more than 50,000 given that
+# Population density (per km2, 2017) is 100.0 or more?
+
+# In[38]:
+
+
+data['Population']=np.where(data['Population in thousands (2017)']>50000,1,0)
+
+
+# In[39]:
+
+
+data['Population']
+
+
+# In[40]:
+
+
+data['Density']=np.where(data['Population density (per km2, 2017)']>100.0,1,0)
+
+
+# In[41]:
+
+
+data['Density']
+
+
+# In[42]:
+
+
+data['Count']=1
+
+
+# In[43]:
+
+
+data_new=data[['Population','Density','Count']]
+
+
+# In[44]:
+
+
+data_new
+
+
+# In[45]:
+
+
+# create the pivot table
+pd.pivot_table(data_new,values='Count', index=['Population'], columns=['Density'],aggfunc=np.size, fill_value=0)
+
+
+# In[46]:
+
+
+p_A=10+17/113+89+10+17
+p_B=89+17/113+89+10+17
+p_A_B=17/113+89+10+17
+
+
+# In[47]:
+
+
+res=p_A_B/p_B
+
+
+# In[48]:
+
+
+res
+
+
+# In[ ]:
+
+
+
+
